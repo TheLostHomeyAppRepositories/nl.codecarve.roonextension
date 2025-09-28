@@ -38,7 +38,7 @@ class RoonApp extends Homey.App {
     this.roonApi = new RoonApi({
       extension_id: "nl.codecarve.roonextension",
       display_name: "Homey",
-      display_version: "1.1.14",
+      display_version: "1.2.0",
       publisher: "CodeCarve",
       email: "hello@codecarve.nl",
       website: "https://github.com/codecarve/roonextension/issues",

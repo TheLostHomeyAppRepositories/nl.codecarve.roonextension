@@ -222,13 +222,17 @@ class RoonZoneDevice extends Homey.Device {
               );
               await this.albumArtImage.update();
               this.currentImageKey = newImageKey;
-              this.log(`Album art updated: ${oldImageKey || 'none'} -> ${newImageKey}`);
+              this.log(
+                `Album art updated: ${oldImageKey || "none"} -> ${newImageKey}`,
+              );
             }
           }
         } catch (err) {
           const oldImageKey = this.currentImageKey;
           const newImageKey = zone?.now_playing?.image_key;
-          this.error(`Error setting image. Failed to update from '${oldImageKey || 'none'}' to '${newImageKey || 'unknown'}'. Error: ${err.message}`);
+          this.error(
+            `Error setting image. Failed to update from '${oldImageKey || "none"}' to '${newImageKey || "unknown"}'. Error: ${err.message}`,
+          );
         }
 
         break;

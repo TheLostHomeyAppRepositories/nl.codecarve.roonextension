@@ -68,5 +68,12 @@
     "es": "🔧 **Versión de Mantenimiento**",
     "fr": "🔧 **Version de Maintenance**",
     "de": "🔧 **Wartungsversion**"
+  },
+  "1.2.0": {
+    "en": "🎵 **Speaker Grouping & Playback Transfer** 🎵\n• Group outputs together for synchronized playback\n• Ungroup speakers with a single flow action\n• Transfer your music between zones seamlessly\n• Enhanced stability and error handling\n\n**Thank you for your support!**",
+    "nl": "🎵 **Speaker Groeperen & Afspelen Overdragen** 🎵\n• Groepeer uitgangen voor gesynchroniseerde weergave\n• Verwijder speakers uit groepen met één flow actie\n• Draag je muziek naadloos over tussen zones\n• Verbeterde stabiliteit en foutafhandeling\n\n**Bedankt voor uw steun!**",
+    "es": "🎵 **Agrupación de Altavoces y Transferencia** 🎵\n• Agrupa salidas para reproducción sincronizada\n• Desagrupa altavoces con una sola acción de flujo\n• Transfiere tu música entre zonas sin problemas\n• Estabilidad y manejo de errores mejorados\n\n**¡Gracias por tu apoyo!**",
+    "fr": "🎵 **Groupement de Haut-parleurs et Transfert** 🎵\n• Groupez les sorties pour une lecture synchronisée\n• Dégroupez les haut-parleurs avec une seule action de flux\n• Transférez votre musique entre zones en toute transparence\n• Stabilité et gestion d'erreurs améliorées\n\n**Merci pour votre soutien !**",
+    "de": "🎵 **Lautsprecher-Gruppierung & Übertragung** 🎵\n• Gruppieren Sie Ausgänge für synchronisierte Wiedergabe\n• Entfernen Sie Lautsprecher aus Gruppen mit einer Flow-Aktion\n• Übertragen Sie Ihre Musik nahtlos zwischen Zonen\n• Verbesserte Stabilität und Fehlerbehandlung\n\n**Vielen Dank für Ihre Unterstützung!**"
   }
 }

@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2025-09-28
+
+### Summary
+
+Cumulative release combining speaker grouping functionality from v1.1.13 and stability improvements from v1.1.14.
+
+### Added
+
+- **Flow Actions for Output Grouping:**
+  - `Group with output`: Group this output with another output to create synchronized playback zones
+  - `Leave group`: Remove an output from its current group
+  - `Transfer playback to`: Move the current playback queue to another zone or output
+- Group status capability for tracking grouping state in device UI
+
+### Changed
+
+- Enhanced `ZoneManager` with methods for output grouping, ungrouping, and playback transfer
+- Improved flow action titles for better clarity (e.g., "Turn on output" instead of "Wake-up")
+- Refactored global `zoneManager` instances to app-scoped pattern for better modularity
+
+### Fixed
+
+- Improved autocomplete handling in flow actions
+- Enhanced error handling for grouping operations
+- Device availability checks during zone updates
+- Error handling improvements in core pairing processes
+- Enhanced stability when Roon Core connection state changes
+
+### Technical Details
+
+- Added comprehensive translations for new flow actions across all 5 supported languages (EN, NL, ES, FR, DE)
+- Implemented promise-based wrappers in ZoneManager for transport operations
+- Enhanced device lifecycle management with availability checks
+
 ## [1.1.14] - 2025-08-13
 
 ### Changed
