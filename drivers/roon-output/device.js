@@ -201,11 +201,11 @@ class RoonOutputDevice extends Homey.Device {
             ).catch(this.error);
             await this.setCapabilityValue(
               "volume_set",
-              +output.volume.value / 100,
+              (+output.volume.value - +output.volume.min) / (+output.volume.max - +output.volume.min),
             ).catch(this.error);
             await this.setCapabilityValue(
               "volume_soft_limit",
-              +output.volume.soft_limit,
+              (+output.volume.soft_limit - +output.volume.min) / (+output.volume.max - +output.volume.min) * 100,
             ).catch(this.error);
           }
 
@@ -536,7 +536,7 @@ class RoonOutputDevice extends Homey.Device {
         if (!output.volume) return false;
         return direction > 0
           ? +output.volume.value < +output.volume.soft_limit
-          : +output.volume.value > 0;
+          : +output.volume.value > +output.volume.min;
       })
       .map((output) => {
         return new Promise((resolve, reject) => {
@@ -665,7 +665,7 @@ class RoonOutputDevice extends Homey.Device {
       return;
     }
 
-    const volumeToSet = Math.min(+value * 100, output.volume.soft_limit);
+    const volumeToSet = Math.min(+output.volume.min + +value * (+output.volume.max - +output.volume.min), output.volume.soft_limit);
 
     try {
       await new Promise((resolve, reject) => {
