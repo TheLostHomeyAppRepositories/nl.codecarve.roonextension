@@ -199,14 +199,28 @@ class RoonOutputDevice extends Homey.Device {
               "volume_mute",
               output.volume.is_muted,
             ).catch(this.error);
-            await this.setCapabilityValue(
-              "volume_set",
-              (+output.volume.value - +output.volume.min) / (+output.volume.max - +output.volume.min),
-            ).catch(this.error);
-            await this.setCapabilityValue(
-              "volume_soft_limit",
-              (+output.volume.soft_limit - +output.volume.min) / (+output.volume.max - +output.volume.min) * 100,
-            ).catch(this.error);
+
+            const normalizedVolume = this.normalizeVolume(
+              output.volume.value,
+              output.volume,
+            );
+            if (normalizedVolume !== null) {
+              await this.setCapabilityValue(
+                "volume_set",
+                normalizedVolume,
+              ).catch(this.error);
+            }
+
+            const normalizedSoftLimit = this.normalizeVolume(
+              output.volume.soft_limit,
+              output.volume,
+            );
+            if (normalizedSoftLimit !== null) {
+              await this.setCapabilityValue(
+                "volume_soft_limit",
+                normalizedSoftLimit * 100,
+              ).catch(this.error);
+            }
           }
 
           try {
@@ -516,6 +530,38 @@ class RoonOutputDevice extends Homey.Device {
     }
   };
 
+  /**
+   * Normalizes a volume value to 0-1 range based on output's min/max
+   * Returns null if volume type is incremental or min/max are missing
+   */
+  normalizeVolume(value, volume) {
+    if (
+      volume.type === "incremental" ||
+      typeof volume.min !== "number" ||
+      typeof volume.max !== "number"
+    ) {
+      return null;
+    }
+    const range = volume.max - volume.min;
+    if (range === 0) return null;
+    return (value - volume.min) / range;
+  }
+
+  /**
+   * Converts 0-1 normalized value back to device's native range
+   * Returns null if volume type is incremental or min/max are missing
+   */
+  denormalizeVolume(normalized, volume) {
+    if (
+      volume.type === "incremental" ||
+      typeof volume.min !== "number" ||
+      typeof volume.max !== "number"
+    ) {
+      return null;
+    }
+    return volume.min + normalized * (volume.max - volume.min);
+  }
+
   changeVolume = async (direction) => {
     const transport = this.zoneManager.getTransport();
     if (!transport) {
@@ -536,7 +582,7 @@ class RoonOutputDevice extends Homey.Device {
         if (!output.volume) return false;
         return direction > 0
           ? +output.volume.value < +output.volume.soft_limit
-          : +output.volume.value > +output.volume.min;
+          : +output.volume.value > (output.volume.min ?? 0);
       })
       .map((output) => {
         return new Promise((resolve, reject) => {
@@ -665,7 +711,14 @@ class RoonOutputDevice extends Homey.Device {
       return;
     }
 
-    const volumeToSet = Math.min(+output.volume.min + +value * (+output.volume.max - +output.volume.min), output.volume.soft_limit);
+    const targetVolume = this.denormalizeVolume(value, output.volume);
+    if (targetVolume === null) {
+      this.error(
+        "onCapabilityVolumeSet - Cannot set absolute volume on incremental-only output",
+      );
+      return;
+    }
+    const volumeToSet = Math.min(targetVolume, output.volume.soft_limit);
 
     try {
       await new Promise((resolve, reject) => {
